@@ -67,4 +67,12 @@ public class Circle : MonoBehaviour
             }
         }
     }
+
+    public void ResetState()
+    {
+        delayTimerIsDone = false;
+        reflexTimerIsDone = false;
+
+        go.SetActive(true);
+    }
 }
