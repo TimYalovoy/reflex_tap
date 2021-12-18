@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 349954966}
   - component: {fileID: 349954965}
   - component: {fileID: 349954967}
+  - component: {fileID: 349954968}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -153,7 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3316b57a1f596df48accf66aeaf77dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolObject: {fileID: 0}
+  poolObject: {fileID: 349954967}
+  data: {fileID: 349954968}
 --- !u!4 &349954966
 Transform:
   m_ObjectHideFlags: 0
@@ -182,7 +184,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabs:
   - {fileID: 1976102555442083172, guid: 16375869ba9a5594fbb8cc357188fde7, type: 3}
-  - {fileID: 1988783270354328776, guid: 14088a722f290d449be2d900ccc04f26, type: 3}
+  - {fileID: 1976102555442083172, guid: 16375869ba9a5594fbb8cc357188fde7, type: 3}
+--- !u!114 &349954968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349954964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e047ed3709182a4c98351eedb72df76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _delay: 0.95
+  _timeToCollapse: 1.05
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
