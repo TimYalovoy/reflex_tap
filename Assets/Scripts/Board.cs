@@ -24,7 +24,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         // cache of data
-        poolObject = FindObjectOfType<PoolObject>();
+        poolObject = GetComponent<PoolObject>();
 
         this.Height = 7;
         this.Width = 4;
@@ -33,6 +33,6 @@ public class Board : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
