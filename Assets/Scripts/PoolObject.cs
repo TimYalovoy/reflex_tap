@@ -5,23 +5,30 @@ using UnityEngine;
 public class PoolObject : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] prefabs;
+    private GameObject[] _prefabs;
+    public GameObject[] Prefabs
+    {
+        get => _prefabs;
+    }
+
+    #region Singlton
+    public static PoolObject Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        // rewrite
+        // Creating gameObjects in Hierarchy
         GameObject go;
-        foreach (GameObject prefab in prefabs)
+        foreach (GameObject prefab in Prefabs)
         {
             go = Instantiate(prefab);
-            go.SetActive(false);
             go.transform.SetParent(this.gameObject.transform);
         }
-    }
-
-    public void GoOnBoard()
-    {
-
     }
 }
