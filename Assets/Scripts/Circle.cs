@@ -6,39 +6,47 @@ public class Circle : MonoBehaviour
 {
     public GameObject go;
     public Transform trfm;
+    public Data data;
+    public SpriteRenderer sprite;
 
-    private bool delayTimerIsDone = false;
-    private bool reflexTimerIsDone = false;
+    private bool delayTimerIsDone;
+    private bool reflexTimerIsDone;
 
-    private float _secondsDelay;
-    public float SecondsDelay
+    private float _delay;
+    #region GETSET
+    public float Delay
     {
-        get => _secondsDelay;
-        set => _secondsDelay = value;
+        get => _delay;
+        set => _delay = value;
     }
-    private float _secondsReflex;
-    public float SecondsReflex
+    #endregion
+    private float _reflex;
+    #region GETSET
+    public float Reflex
     {
-        get => _secondsReflex;
-        set => _secondsReflex = value;
+        get => _reflex;
+        set => _reflex = value;
     }
-
+    #endregion
     private float coef;
 
     private void Awake()
     {
-        go = this.gameObject;
-        trfm.localScale = go.GetComponent<Transform>().localScale;
+        //go = this.gameObject;
     }
 
     void Start()
     {
+        go = this.gameObject;
+        data = GetComponent<Data>();
+        sprite = GetComponent<SpriteRenderer>();
+        trfm = GetComponent<Transform>();
         ResetState();
-        if (SecondsReflex == 0)
+        if (Reflex == 0)
         {
             coef = 1f;
         }else{
-            coef = 1f / SecondsReflex;    
+            coef = 1f / Reflex;
         }
     }
 
@@ -46,21 +54,21 @@ public class Circle : MonoBehaviour
     {
         if (!delayTimerIsDone)
         {
-            if (SecondsDelay > 0)
+            if (Delay > 0)
             {
-                SecondsDelay -= Time.deltaTime;
+                Delay -= Time.deltaTime;
             }
             else
             {
-                SecondsDelay = 0;
+                Delay = 0;
                 delayTimerIsDone = true;
             }
         }
         else if (!reflexTimerIsDone)
         {
-            if (SecondsReflex > 0)
+            if (Reflex > 0)
             {
-                SecondsReflex -= Time.deltaTime;
+                Reflex -= Time.deltaTime;
                 trfm.localScale = new Vector3(
                     trfm.localScale.x - (Time.deltaTime * coef),
                     trfm.localScale.y - (Time.deltaTime * coef)
@@ -70,7 +78,7 @@ public class Circle : MonoBehaviour
             {
                 go.SetActive(false);
                 trfm.localScale = new Vector3(0.00f, 0.00f);
-                SecondsReflex = 0;
+                Reflex = 0;
                 reflexTimerIsDone = true;
                 ResetState();
             }
@@ -84,12 +92,14 @@ public class Circle : MonoBehaviour
             Random.Range(-2f, 2f), // x
             Random.Range(-4f, 4f)  // y
             );
-
+        
+        sprite.color = NewColor();
+        
         delayTimerIsDone = false;
         reflexTimerIsDone = false;
 
-        this.SecondsDelay = 1f;
-        this.SecondsReflex = 1.25f;
+        this.Delay = data.Delay;
+        this.Reflex = data.TimeToCollapse;
 
         go.SetActive(true);
     }
@@ -100,5 +110,21 @@ public class Circle : MonoBehaviour
         reflexTimerIsDone = true;
         go.SetActive(false);
         ResetState();
+    }
+
+    private Color NewColor()
+    {
+        Color clr = new Color();
+        clr.r = Random.Range(0, 2);
+        clr.g = Random.Range(0, 2);
+        clr.b = Random.Range(0, 2);
+        clr.a = 1f;
+
+        if (clr == Color.black)
+        {
+            clr = Color.blue;
+        }
+
+        return clr;
     }
 }
