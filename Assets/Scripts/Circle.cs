@@ -13,7 +13,7 @@ public class Circle : MonoBehaviour
     private bool reflexTimerIsDone;
 
     private float _delay;
-    #region GETSET
+    #region GET SET
     public float Delay
     {
         get => _delay;
@@ -21,7 +21,7 @@ public class Circle : MonoBehaviour
     }
     #endregion
     private float _reflex;
-    #region GETSET
+    #region GET SET
     public float Reflex
     {
         get => _reflex;
@@ -29,11 +29,7 @@ public class Circle : MonoBehaviour
     }
     #endregion
     private float coef;
-
-    private void Awake()
-    {
-        //go = this.gameObject;
-    }
+    private Board board;
 
     void Start()
     {
@@ -41,6 +37,7 @@ public class Circle : MonoBehaviour
         data = GetComponent<Data>();
         sprite = GetComponent<SpriteRenderer>();
         trfm = GetComponent<Transform>();
+        board = FindObjectOfType<Board>();
         ResetState();
         if (Reflex == 0)
         {
@@ -80,6 +77,7 @@ public class Circle : MonoBehaviour
                 trfm.localScale = new Vector3(0.00f, 0.00f);
                 Reflex = 0;
                 reflexTimerIsDone = true;
+                board.ScoreDecrease();
                 ResetState();
             }
         }
@@ -109,6 +107,7 @@ public class Circle : MonoBehaviour
         delayTimerIsDone = true;
         reflexTimerIsDone = true;
         go.SetActive(false);
+        board.ScoreIncrease();
         ResetState();
     }
 
@@ -122,7 +121,13 @@ public class Circle : MonoBehaviour
 
         if (clr == Color.black)
         {
+            // power up
             clr = Color.blue;
+        }
+        if (clr == Color.white)
+        {
+            // power up
+            clr = Color.cyan;
         }
 
         return clr;

@@ -6,14 +6,15 @@ public class Data : MonoBehaviour
 {
     // Board data
     #region Height
-    private float _maxHeight;
+    [SerializeField]
+    private float _maxHeight = 3f;
     public float MaxHeight
     {
         get => _maxHeight;
         set => _maxHeight = value;
     }
-
-    private float _minHeight;
+    [SerializeField]
+    private float _minHeight = -4f;
     public float MinHeight
     {
         get => _minHeight;
@@ -22,14 +23,15 @@ public class Data : MonoBehaviour
     #endregion
 
     #region Width
-    private float _maxWidth;
+    [SerializeField]
+    private float _maxWidth = 2f;
     public float MaxWidth
     {
         get => _maxWidth;
         set => _maxWidth = value;
     }
-
-    private float _minWidth;
+    [SerializeField]
+    private float _minWidth = -2f;
     public float MinWidth
     {
         get => _minWidth;
@@ -53,12 +55,5 @@ public class Data : MonoBehaviour
     }
     #endregion
 
-    void Start()
-    {
-        MaxHeight = 4f;
-        MinHeight = -4f;
 
-        MaxWidth = 2f;
-        MinWidth = -2f;
-    }
 }
