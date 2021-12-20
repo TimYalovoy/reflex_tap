@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Circle : MonoBehaviour
 {
-    public GameObject go;
-    public Transform trfm;
-    public Data data;
-    public SpriteRenderer sprite;
+    private GameObject go;
+    private Transform trfm;
+    private Data data;
+    private SpriteRenderer sprite;
+    private Board board;
 
-    private bool delayTimerIsDone;
-    private bool reflexTimerIsDone;
+    private bool _delayTimerIsDone;
+    private bool _reflexTimerIsDone;
 
     private float _delay;
     #region GET SET
@@ -28,73 +29,44 @@ public class Circle : MonoBehaviour
         set => _reflex = value;
     }
     #endregion
-    private float coef;
-    private Board board;
+    private float _coef;
+    #region GET SET
+    public float Coef
+    {
+        get => _coef;
+        set => _coef = value;
+    }
+    #endregion
 
     void Start()
     {
         go = this.gameObject;
-        data = GetComponent<Data>();
-        sprite = GetComponent<SpriteRenderer>();
-        trfm = GetComponent<Transform>();
+        trfm = go.GetComponent<Transform>();
+        data = go.GetComponent<Data>();
+        sprite = go.GetComponent<SpriteRenderer>();
         board = FindObjectOfType<Board>();
         ResetState();
-        if (Reflex == 0)
-        {
-            coef = 1f;
-        }else{
-            coef = 1f / Reflex;
-        }
+
+        _ = Reflex == 0 ? Coef = 1f : Coef = 1f / Reflex;
     }
 
     private void FixedUpdate()
     {
-        if (!delayTimerIsDone)
-        {
-            if (Delay > 0)
-            {
-                Delay -= Time.deltaTime;
-            }
-            else
-            {
-                Delay = 0;
-                delayTimerIsDone = true;
-            }
-        }
-        else if (!reflexTimerIsDone)
-        {
-            if (Reflex > 0)
-            {
-                Reflex -= Time.deltaTime;
-                trfm.localScale = new Vector3(
-                    trfm.localScale.x - (Time.deltaTime * coef),
-                    trfm.localScale.y - (Time.deltaTime * coef)
-                    );
-            }
-            else
-            {
-                go.SetActive(false);
-                trfm.localScale = new Vector3(0.00f, 0.00f);
-                Reflex = 0;
-                reflexTimerIsDone = true;
-                board.ScoreDecrease();
-                ResetState();
-            }
-        }
+        TimerToReflex();
     }
 
     public void ResetState()
     {
         trfm.localScale = new Vector3(1f, 1f);
         trfm.position = new Vector3(
-            Random.Range(-2f, 2f), // x
-            Random.Range(-4f, 4f)  // y
+            Random.Range(board.MinWidth, board.MaxWidth),     // x
+            Random.Range(board.MinHeight, board.MaxHeight)    // y
             );
-        
+
         sprite.color = NewColor();
-        
-        delayTimerIsDone = false;
-        reflexTimerIsDone = false;
+
+        _delayTimerIsDone = false;
+        _reflexTimerIsDone = false;
 
         this.Delay = data.Delay;
         this.Reflex = data.TimeToCollapse;
@@ -104,8 +76,8 @@ public class Circle : MonoBehaviour
 
     public void OnMouseDown()
     {
-        delayTimerIsDone = true;
-        reflexTimerIsDone = true;
+        _delayTimerIsDone = true;
+        _reflexTimerIsDone = true;
         go.SetActive(false);
         board.ScoreIncrease();
         ResetState();
@@ -131,5 +103,41 @@ public class Circle : MonoBehaviour
         }
 
         return clr;
+    }
+
+    private void TimerToReflex()
+    {
+        if (!_delayTimerIsDone)
+        {
+            if (Delay > 0)
+            {
+                Delay -= Time.deltaTime;
+            }
+            else
+            {
+                Delay = 0;
+                _delayTimerIsDone = true;
+            }
+        }
+        else if (!_reflexTimerIsDone)
+        {
+            if (Reflex > 0)
+            {
+                Reflex -= Time.deltaTime;
+                trfm.localScale = new Vector3(
+                    trfm.localScale.x - (Time.deltaTime * Coef),
+                    trfm.localScale.y - (Time.deltaTime * Coef)
+                    );
+            }
+            else
+            {
+                go.SetActive(false);
+                trfm.localScale = new Vector3(0.00f, 0.00f);
+                Reflex = 0;
+                _reflexTimerIsDone = true;
+                board.ScoreDecrease();
+                ResetState();
+            }
+        }
     }
 }
