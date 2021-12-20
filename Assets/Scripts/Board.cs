@@ -4,25 +4,58 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    public PoolObject poolObject;
-    public Data data;
+    [SerializeField]
+    private PoolObject poolObject;
+    private Data data;
 
-    public int circleCost = 20;
-    public int score = 0;
-    public int clicks = 0;
+    #region Score
+    private int circleCost = 1;
+    private int score = 0;
+    private int clicks = 0;
     public TextMesh scoreLabel;
+    #endregion
+
+    #region Height
+    //[SerializeField]
+    private float _maxHeight = 75f;
+    public float MaxHeight
+    {
+        get => _maxHeight;
+    }
+    //[SerializeField]
+    private float _minHeight = -90f;
+    public float MinHeight
+    {
+        get => _minHeight;
+    }
+    #endregion
+
+    #region Width
+    //[SerializeField]
+    private float _maxWidth = 40f;
+    public float MaxWidth
+    {
+        get => _maxWidth;
+    }
+    //[SerializeField]
+    private float _minWidth = -40f;
+    public float MinWidth
+    {
+        get => _minWidth;
+    }
+    #endregion
+
+    #region Time to play
+    [SerializeField]
+    private float time2play = 20f;
+    #endregion
 
     void Start()
     {
         // cache of data
-        poolObject = GetComponent<PoolObject>();
-        data = GetComponent<Data>();
+        poolObject = this.GetComponent<PoolObject>();
+        data = this.GetComponent<Data>();
         scoreLabel = FindObjectOfType<TextMesh>();
-    }
-
-    private void Update()
-    {
-        
     }
 
     public void ScoreIncrease()
@@ -34,7 +67,7 @@ public class Board : MonoBehaviour
     public void ScoreDecrease()
     {
         _ = clicks > 10 ? clicks = 10 : clicks = 0;
-        score -= circleCost;
+        score -= circleCost*20;
         scoreLabel.text = score.ToString();
     }
 }
