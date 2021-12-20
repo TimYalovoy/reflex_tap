@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1976102555442083174}
   - component: {fileID: 1976102555442083175}
-  - component: {fileID: -7769946503525384622}
+  - component: {fileID: -7144114299794284194}
   - component: {fileID: 2351455135773284361}
   - component: {fileID: -4327589876922872439}
   m_Layer: 0
@@ -74,18 +74,18 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eb9949a92bb906744bec3711a57ea7cd, type: 3}
   m_Color: {r: 0, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 40.96, y: 40.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &-7769946503525384622
+--- !u!58 &-7144114299794284194
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,7 +100,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 10
 --- !u!114 &2351455135773284361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,4 +135,3 @@ MonoBehaviour:
   _minWidth: -2
   _delay: 0.65
   _timeToCollapse: 0.95
-  circleCost: 20
