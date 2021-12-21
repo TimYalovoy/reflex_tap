@@ -6,9 +6,9 @@ public class Circle : MonoBehaviour
 {
     private GameObject go;
     private Transform trfm;
-    private Data data;
     private SpriteRenderer sprite;
     private Board board;
+    private Data data;
 
     private bool _delayTimerIsDone;
     private bool _reflexTimerIsDone;
@@ -42,9 +42,9 @@ public class Circle : MonoBehaviour
     {
         go = this.gameObject;
         trfm = go.GetComponent<Transform>();
-        data = go.GetComponent<Data>();
         sprite = go.GetComponent<SpriteRenderer>();
         board = FindObjectOfType<Board>();
+        data = board.GetComponent<Data>();
         ResetState();
 
         _ = Reflex == 0 ? Coef = 1f : Coef = 1f / Reflex;
