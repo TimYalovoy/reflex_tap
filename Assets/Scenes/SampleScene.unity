@@ -264,12 +264,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolObject: {fileID: 349954967}
-  data: {fileID: 349954968}
+  clicks: 0
   scoreLabel: {fileID: 275612103}
-  _maxHeight: 75
-  _minHeight: -90
-  _maxWidth: 40
-  _minWidth: -40
+  time2play: 20
 --- !u!4 &349954966
 Transform:
   m_ObjectHideFlags: 0
@@ -311,8 +308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e047ed3709182a4c98351eedb72df76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delay: 1
-  _timeToCollapse: 0.75
+  _delay: 0.65
+  _timeToCollapse: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
