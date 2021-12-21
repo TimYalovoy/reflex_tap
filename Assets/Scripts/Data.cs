@@ -7,16 +7,18 @@ public class Data : MonoBehaviour
     // Circle data
     #region Time (seconds)
     [SerializeField]
-    private float _delay = .65f;
+    private float _delay;
     public float Delay
     {
         get => _delay;
+        set => _delay = value;
     }
     [SerializeField]
-    private float _timeToCollapse = .95f;
+    private float _timeToCollapse;
     public float TimeToCollapse
     {
         get => _timeToCollapse;
+        set => _timeToCollapse = value;
     }
     #endregion
 }
