@@ -1,20 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Board : MonoBehaviour
 {
-    [SerializeField]
+    //[SerializeField]
     private PoolObject poolObject;
+    //[SerializeField]
     private Data data;
 
-    #region Score
-    private int circleCost = 1;
-    private int score = 0;
-    [SerializeField]
-    private int clicks = 0;
-    public TextMesh scoreLabel;
-    #endregion
+    private TextMeshProUGUI[] labels;
 
     #region Height
     //[SerializeField]
@@ -46,9 +42,29 @@ public class Board : MonoBehaviour
     }
     #endregion
 
+    #region Score
+    //[SerializeField]
+    private int circleCost = 1;
+    //[SerializeField]
+    private int score = 0;
+    //[SerializeField]
+    private int clicks = 0;
+    private TextMeshProUGUI scoreLabel;
+    #endregion
+
+    #region GameOver
+    //[SerializeField]
+    private bool _gameOver = false;
+    private TextMeshProUGUI gameOverLabel;
+    #endregion
+
     #region Time to play
     [SerializeField]
-    private float time2play = 20f;
+    private float _time2play = 20f;
+    //[SerializeField]
+    private float _penalty = 2f;
+    //[SerializeField]
+    private float _reward = 1f;
     #endregion
 
     void Start()
@@ -56,21 +72,89 @@ public class Board : MonoBehaviour
         // cache of data
         poolObject = this.GetComponent<PoolObject>();
         data = this.GetComponent<Data>();
-        scoreLabel = FindObjectOfType<TextMesh>();
+        labels = FindObjectsOfType<TextMeshProUGUI>();
+        if (labels[0].name == "Score Text")
+        {
+            scoreLabel = labels[0];
+            gameOverLabel = labels[1];
+            gameOverLabel.gameObject.SetActive(_gameOver);
+        } else
+        {
+            scoreLabel = labels[1];
+            gameOverLabel = labels[0];
+            gameOverLabel.gameObject.SetActive(_gameOver);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        TimerToGameOver();
+        if (_gameOver)
+        {
+            ResumeGame();
+        }
+    }
+
+    private IEnumerator WaitForStart()
+    {
+        yield return new WaitForSecondsRealtime(5);
+        Time.timeScale = 1;
+        _gameOver = false;
+        score = 0;
+        _time2play = 20f;
+        gameOverLabel.gameObject.SetActive(false);
+    }
+
+    private void TimerToGameOver()
+    {
+        if (_time2play > 0)
+        {
+            _time2play -= Time.deltaTime;
+        } else
+        {
+            GameOver();
+            return;
+        }
+    }
+
+    private void GameOver()
+    {
+        _gameOver = true;
+        gameOverLabel.gameObject.SetActive(_gameOver);
+        _time2play = 0;
+        PauseGame();
+    }
+
+    private void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void ResumeGame()
+    {
+        StartCoroutine(WaitForStart());
+        
     }
 
     public void ScoreIncrease()
     {
+        //if (_gameOver){return;}
         clicks++;
         _ = clicks > 10 ? score += circleCost * 2 : score += circleCost;
         scoreLabel.text = score.ToString();
-        time2play += 1.05f;
+        _time2play += _reward;
     }
     public void ScoreDecrease()
     {
         _ = clicks > 10 ? clicks = 10 : clicks = 0;
         score -= circleCost*3;
+        // зацикливание - исправить. Не может запуститься корутин
+        if (score < 0)
+        {
+            GameOver();
+            return;
+        }
         scoreLabel.text = score.ToString();
-        time2play -= 1f;
+        _time2play -= _penalty;
     }
 }
