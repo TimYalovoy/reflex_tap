@@ -88,11 +88,15 @@ public class Board : MonoBehaviour
 
     private void FixedUpdate()
     {
-        TimerToGameOver();
+        if (score < 0)
+        {
+            GameOver();
+        }
         if (_gameOver)
         {
             ResumeGame();
         }
+        TimerToGameOver();
     }
 
     private IEnumerator WaitForStart()
@@ -138,7 +142,6 @@ public class Board : MonoBehaviour
 
     public void ScoreIncrease()
     {
-        //if (_gameOver){return;}
         clicks++;
         _ = clicks > 10 ? score += circleCost * 2 : score += circleCost;
         scoreLabel.text = score.ToString();
@@ -148,12 +151,6 @@ public class Board : MonoBehaviour
     {
         _ = clicks > 10 ? clicks = 10 : clicks = 0;
         score -= circleCost*3;
-        // зацикливание - исправить. Не может запуститься корутин
-        if (score < 0)
-        {
-            GameOver();
-            return;
-        }
         scoreLabel.text = score.ToString();
         _time2play -= _penalty;
     }
