@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//зависимая часть. Будет оповещать о изменении своего состояния. Паттерн: Наблюдатель, Observer
 public class Circle : MonoBehaviour
 {
     private GameObject go;
