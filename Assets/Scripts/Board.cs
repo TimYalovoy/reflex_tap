@@ -60,7 +60,7 @@ public class Board : MonoBehaviour
 
     #region Time to play
     [SerializeField]
-    private float _time2play = 20f;
+    private float _timeToPlay = 20f;
     //[SerializeField]
     private float _penalty = 2f;
     //[SerializeField]
@@ -88,32 +88,22 @@ public class Board : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (score < 0)
-        {
-            GameOver();
-        }
         if (_gameOver)
         {
             ResumeGame();
         }
         TimerToGameOver();
-    }
-
-    private IEnumerator WaitForStart()
-    {
-        yield return new WaitForSecondsRealtime(5);
-        Time.timeScale = 1;
-        _gameOver = false;
-        score = 0;
-        _time2play = 20f;
-        gameOverLabel.gameObject.SetActive(false);
+        if (score < 0)
+        {
+            GameOver();
+        }
     }
 
     private void TimerToGameOver()
     {
-        if (_time2play > 0)
+        if (_timeToPlay > 0)
         {
-            _time2play -= Time.deltaTime;
+            _timeToPlay -= Time.deltaTime;
         } else
         {
             GameOver();
@@ -125,7 +115,7 @@ public class Board : MonoBehaviour
     {
         _gameOver = true;
         gameOverLabel.gameObject.SetActive(_gameOver);
-        _time2play = 0;
+        _timeToPlay = 0;
         PauseGame();
     }
 
@@ -137,7 +127,15 @@ public class Board : MonoBehaviour
     private void ResumeGame()
     {
         StartCoroutine(WaitForStart());
-        
+    }
+    private IEnumerator WaitForStart()
+    {
+        yield return new WaitForSecondsRealtime(5);
+        Time.timeScale = 1;
+        _gameOver = false;
+        score = 0;
+        _timeToPlay = 20f;
+        gameOverLabel.gameObject.SetActive(false);
     }
 
     public void ScoreIncrease()
@@ -145,13 +143,14 @@ public class Board : MonoBehaviour
         clicks++;
         _ = clicks > 10 ? score += circleCost * 2 : score += circleCost;
         scoreLabel.text = score.ToString();
-        _time2play += _reward;
+        _timeToPlay += _reward;
     }
+
     public void ScoreDecrease()
     {
-        _ = clicks > 10 ? clicks = 10 : clicks = 0;
+        //_ = clicks > 10 ? clicks = 10 : clicks = 0;
         score -= circleCost*3;
         scoreLabel.text = score.ToString();
-        _time2play -= _penalty;
+        _timeToPlay -= _penalty;
     }
 }
