@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3316b57a1f596df48accf66aeaf77dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _time2play: 20
+  _timeToPlay: 20
 --- !u!4 &349954966
 Transform:
   m_ObjectHideFlags: 0
@@ -184,6 +184,9 @@ MonoBehaviour:
   _prefabs:
   - {fileID: 1976102555442083172, guid: 16375869ba9a5594fbb8cc357188fde7, type: 3}
   - {fileID: 1976102555442083172, guid: 16375869ba9a5594fbb8cc357188fde7, type: 3}
+  _vfx:
+  - {fileID: 261866111589277979, guid: 931a7498035273e49a80a46d94d8b6a2, type: 3}
+  - {fileID: 261866111589277979, guid: 931a7498035273e49a80a46d94d8b6a2, type: 3}
 --- !u!114 &349954968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,8 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e047ed3709182a4c98351eedb72df76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delay: 2.5
-  _timeToCollapse: 1.5
+  _delay: 1.25
+  _timeToCollapse: 0.75
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
