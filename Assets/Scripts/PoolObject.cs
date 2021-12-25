@@ -11,6 +11,13 @@ public class PoolObject : MonoBehaviour
         get => _prefabs;
     }
 
+    [SerializeField]
+    private GameObject[] _vfx;
+    public GameObject[] VFX
+    {
+        get => _vfx;
+    }
+
     #region Singlton
     public static PoolObject Instance;
 
@@ -24,8 +31,14 @@ public class PoolObject : MonoBehaviour
     void Start()
     {
         // Creating gameObjects in Hierarchy
+        Filling(Prefabs);
+        Filling(VFX);
+    }
+
+    private void Filling(GameObject[] gameObjects)
+    {
         GameObject go;
-        foreach (GameObject prefab in Prefabs)
+        foreach (GameObject prefab in gameObjects)
         {
             go = Instantiate(prefab);
             go.transform.SetParent(this.gameObject.transform);
