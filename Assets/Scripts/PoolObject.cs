@@ -5,15 +5,15 @@ using UnityEngine;
 public class PoolObject : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] _prefabs;
-    public GameObject[] Prefabs
+    private List<GameObject> _circles;
+    public List<GameObject> Circles
     {
-        get => _prefabs;
+        get => _circles;
     }
 
     [SerializeField]
-    private GameObject[] _vfx;
-    public GameObject[] VFX
+    private List<GameObject> _vfx;
+    public List<GameObject> VFX
     {
         get => _vfx;
     }
@@ -31,11 +31,20 @@ public class PoolObject : MonoBehaviour
     void Start()
     {
         // Creating gameObjects in Hierarchy
-        Filling(Prefabs);
+        Filling(Circles);
         Filling(VFX);
+
+        VFX[0].SetActive(true);
+        VFX vfx = VFX[0].GetComponent<VFX>();
+        foreach (GameObject circle in Circles)
+        {
+            circle.GetComponent<Circle>().Attach(vfx);
+        }
+        VFX[0].SetActive(false);
+
     }
 
-    private void Filling(GameObject[] gameObjects)
+    private void Filling(List<GameObject> gameObjects)
     {
         GameObject go;
         foreach (GameObject prefab in gameObjects)
