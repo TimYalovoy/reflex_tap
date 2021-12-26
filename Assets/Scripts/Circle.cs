@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//зависимая часть. Будет оповещать о изменении своего состояния. Паттерн: Наблюдатель, Observer
-public class Circle : MonoBehaviour
+public class Circle : MonoBehaviour, INotifier
 {
     private GameObject go;
     private Transform trfm;
     private SpriteRenderer sprite;
     private Board board;
     private Data data;
+
+    //[SerializeField]
+    public List<IObserver> _observers = new List<IObserver>();
 
     private bool _delayTimerIsDone;
     private bool _reflexTimerIsDone;
@@ -45,6 +47,7 @@ public class Circle : MonoBehaviour
         trfm = go.GetComponent<Transform>();
         sprite = go.GetComponent<SpriteRenderer>();
         board = FindObjectOfType<Board>();
+
         data = board.GetComponent<Data>();
         ResetState();
 
@@ -81,6 +84,7 @@ public class Circle : MonoBehaviour
         _reflexTimerIsDone = true;
         go.SetActive(false);
         board.ScoreIncrease();
+        Notify();
         ResetState();
     }
 
@@ -139,6 +143,19 @@ public class Circle : MonoBehaviour
                 board.ScoreDecrease();
                 ResetState();
             }
+        }
+    }
+
+    public void Attach(IObserver observer)
+    {
+        _observers.Add(observer);
+    }
+
+    public void Notify()
+    {
+        foreach (IObserver observer in _observers)
+        {
+            observer.ReactionToNotification(this);
         }
     }
 }
