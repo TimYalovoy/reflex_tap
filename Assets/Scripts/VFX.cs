@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Подписчик. Будет ждать рассылки об изменении состояния объектов. Паттерн: Наблюдатель, Observer
-public class VFX : MonoBehaviour
+public class VFX : MonoBehaviour, IObserver
 {
     private GameObject vfx;
 
@@ -12,17 +11,17 @@ public class VFX : MonoBehaviour
     void Start()
     {
         vfx = this.gameObject;
-        vfx.SetActive(false);
         _playTime = vfx.GetComponent<ParticleSystem>().main.duration;
+        vfx.SetActive(false);
     }
 
     public void Active(Transform transform)
     {
-        vfx.transform.position = transform.position;
         vfx.SetActive(true);
+        vfx.transform.position = transform.position;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (vfx.activeSelf)
         {
@@ -35,5 +34,10 @@ public class VFX : MonoBehaviour
                 _playTime -= Time.deltaTime;
             }
         }
+    }
+
+    public void ReactionToNotification(INotifier notifier)
+    {
+        Active((notifier as Circle).transform);
     }
 }
