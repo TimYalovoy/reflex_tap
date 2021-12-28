@@ -186,6 +186,7 @@ MonoBehaviour:
   - {fileID: 1976102555442083172, guid: 16375869ba9a5594fbb8cc357188fde7, type: 3}
   _vfx:
   - {fileID: 261866111589277979, guid: 931a7498035273e49a80a46d94d8b6a2, type: 3}
+  - {fileID: 261866111589277979, guid: 931a7498035273e49a80a46d94d8b6a2, type: 3}
 --- !u!114 &349954968
 MonoBehaviour:
   m_ObjectHideFlags: 0
