@@ -90,11 +90,13 @@ public class Board : MonoBehaviour
     {
         if (_gameOver)
         {
+            Debug.Log("GameOver.");
             ResumeGame();
         }
         TimerToGameOver();
         if (score < 0)
         {
+            Debug.Log("Score is less than zero.");
             GameOver();
         }
     }
@@ -106,6 +108,7 @@ public class Board : MonoBehaviour
             _timeToPlay -= Time.deltaTime;
         } else
         {
+            Debug.Log("GameOver by timer.");
             GameOver();
             return;
         }
@@ -117,6 +120,7 @@ public class Board : MonoBehaviour
         gameOverLabel.gameObject.SetActive(_gameOver);
         _timeToPlay = 0;
         PauseGame();
+        StartCoroutine(WaitForStart());
     }
 
     private void PauseGame()
@@ -126,16 +130,19 @@ public class Board : MonoBehaviour
 
     private void ResumeGame()
     {
-        StartCoroutine(WaitForStart());
-    }
-    private IEnumerator WaitForStart()
-    {
-        yield return new WaitForSecondsRealtime(5);
         Time.timeScale = 1;
         _gameOver = false;
         score = 0;
+        scoreLabel.text = score.ToString();
         _timeToPlay = 20f;
         gameOverLabel.gameObject.SetActive(false);
+        Debug.Log("Game has been restarted");
+    }
+    private IEnumerator WaitForStart()
+    {
+        Debug.Log("Start the timer for restart game");
+        yield return new WaitForSecondsRealtime(5);
+        ResumeGame();
     }
 
     public void ScoreIncrease()
