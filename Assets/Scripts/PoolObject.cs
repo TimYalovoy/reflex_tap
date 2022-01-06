@@ -11,12 +11,12 @@ public class PoolObject : MonoBehaviour
         get => _circles;
     }
 
-    [SerializeField]
-    private List<GameObject> _vfx;
-    public List<GameObject> VFX
-    {
-        get => _vfx;
-    }
+    //[SerializeField]
+    //private List<GameObject> _vfx;
+    //public List<GameObject> VFX
+    //{
+    //    get => _vfx;
+    //}
 
     #region Singlton
     public static PoolObject Instance;
@@ -32,16 +32,7 @@ public class PoolObject : MonoBehaviour
     {
         // Creating gameObjects in Hierarchy
         Filling(Circles);
-        Filling(VFX);
-
-        VFX[0].SetActive(true);
-        VFX vfx = VFX[0].GetComponent<VFX>();
-        foreach (GameObject circle in Circles)
-        {
-            circle.GetComponent<Circle>().Attach(vfx);
-        }
-        VFX[0].SetActive(false);
-
+        //Filling(VFX);
     }
 
     private void Filling(List<GameObject> gameObjects)
