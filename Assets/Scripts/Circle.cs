@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Circle : MonoBehaviour, INotifier
+public class Circle : MonoBehaviour
 {
     private GameObject go;
     private Transform trfm;
@@ -10,8 +10,8 @@ public class Circle : MonoBehaviour, INotifier
     private Board board;
     private Data data;
 
-    //[SerializeField]
-    public List<IObserver> _observers = new List<IObserver>();
+    [SerializeField]
+    private ParticleSystem[] particleSystems;
 
     private bool _delayTimerIsDone;
     private bool _reflexTimerIsDone;
@@ -47,8 +47,11 @@ public class Circle : MonoBehaviour, INotifier
         trfm = go.GetComponent<Transform>();
         sprite = go.GetComponent<SpriteRenderer>();
         board = FindObjectOfType<Board>();
-
         data = board.GetComponent<Data>();
+
+        particleSystems = GetComponentsInChildren<ParticleSystem>();
+        DestroyVFX(particleSystems, false);
+
         ResetState();
 
         _ = Reflex == 0 ? Coef = 1f : Coef = 1f / Reflex;
@@ -76,15 +79,21 @@ public class Circle : MonoBehaviour, INotifier
         this.Reflex = data.TimeToCollapse;
 
         go.SetActive(true);
+        DestroyVFX(particleSystems, false);
     }
 
-    public void OnMouseDown()
+    public IEnumerator OnMouseDown()
     {
         _delayTimerIsDone = true;
         _reflexTimerIsDone = true;
-        go.SetActive(false);
+
         board.ScoreIncrease();
-        Notify();
+
+        sprite.color = new Color(0,0,0,0);
+        DestroyVFX(particleSystems, true);
+        yield return new WaitWhile(() => particleSystems[0].isPlaying);
+        go.SetActive(false);
+        
         ResetState();
     }
 
@@ -137,6 +146,8 @@ public class Circle : MonoBehaviour, INotifier
             else
             {
                 go.SetActive(false);
+                
+
                 trfm.localScale = new Vector3(0.00f, 0.00f);
                 Reflex = 0;
                 _reflexTimerIsDone = true;
@@ -146,16 +157,19 @@ public class Circle : MonoBehaviour, INotifier
         }
     }
 
-    public void Attach(IObserver observer)
+    private void DestroyVFX(ParticleSystem[] pSystems, bool play)
     {
-        _observers.Add(observer);
-    }
-
-    public void Notify()
-    {
-        foreach (IObserver observer in _observers)
+        foreach (ParticleSystem particleSystem in pSystems)
         {
-            observer.ReactionToNotification(this);
+            if (play)
+            {
+                particleSystem.Play();
+            }
+            else
+            {
+                particleSystem.Pause();
+            }
         }
     }
+
 }
