@@ -13,6 +13,8 @@ public class Circle : MonoBehaviour
     [SerializeField]
     private ParticleSystem[] particleSystems;
 
+    private AudioSource tapSFX;
+
     private bool _delayTimerIsDone;
     private bool _reflexTimerIsDone;
 
@@ -52,6 +54,8 @@ public class Circle : MonoBehaviour
         particleSystems = GetComponentsInChildren<ParticleSystem>();
         DestroyVFX(particleSystems, false);
 
+        tapSFX = go.GetComponent<AudioSource>();
+
         ResetState();
 
         _ = Reflex == 0 ? Coef = 1f : Coef = 1f / Reflex;
@@ -90,8 +94,11 @@ public class Circle : MonoBehaviour
         board.ScoreIncrease();
 
         sprite.color = new Color(0,0,0,0);
+        tapSFX.Play();
         DestroyVFX(particleSystems, true);
         yield return new WaitWhile(() => particleSystems[0].isPlaying);
+
+        
         go.SetActive(false);
         
         ResetState();
