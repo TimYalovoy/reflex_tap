@@ -114,8 +114,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef547a0ff5d107e45bb43ada8e80ffef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 1976102555442083175}
+  board: {fileID: 0}
+  boardSettings: {fileID: 0}
+  data: {fileID: 0}
   particleSystems:
   - {fileID: 261866111589277981, guid: 931a7498035273e49a80a46d94d8b6a2, type: 3}
+  tapSFX: {fileID: -9121365110572819523}
 --- !u!82 &-9121365110572819523
 AudioSource:
   m_ObjectHideFlags: 0
@@ -125,10 +130,10 @@ AudioSource:
   m_GameObject: {fileID: 1976102555442083172}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2252770a6448e96458127205b06a4c10, type: 3}
+  OutputAudioMixerGroup: {fileID: 4339947820906765126, guid: 888d5af1312aaad47b22c27111711355, type: 2}
+  m_audioClip: {fileID: 8300000, guid: b76c9857f693a3a418ddd10c704b8a46, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

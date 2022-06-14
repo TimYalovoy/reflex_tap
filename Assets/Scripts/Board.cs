@@ -1,163 +1,139 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
-public class Board : MonoBehaviour
+namespace ReflexTap
 {
-    //[SerializeField]
-    private PoolObject poolObject;
-    //[SerializeField]
-    private Data data;
-
-    private TextMeshProUGUI[] labels;
-
-    #region Height
-    //[SerializeField]
-    private float _maxHeight = 75f;
-    public float MaxHeight
+    public class Board : MonoBehaviour
     {
-        get => _maxHeight;
-    }
-    //[SerializeField]
-    private float _minHeight = -90f;
-    public float MinHeight
-    {
-        get => _minHeight;
-    }
-    #endregion
-
-    #region Width
-    //[SerializeField]
-    private float _maxWidth = 40f;
-    public float MaxWidth
-    {
-        get => _maxWidth;
-    }
-    //[SerializeField]
-    private float _minWidth = -40f;
-    public float MinWidth
-    {
-        get => _minWidth;
-    }
-    #endregion
-
-    #region Score
-    //[SerializeField]
-    private int circleCost = 1;
-    //[SerializeField]
-    private int score = 0;
-    //[SerializeField]
-    private int clicks = 0;
-    private TextMeshProUGUI scoreLabel;
-    #endregion
-
-    #region GameOver
-    //[SerializeField]
-    private bool _gameOver = false;
-    private TextMeshProUGUI gameOverLabel;
-    #endregion
-
-    #region Time to play
-    [SerializeField]
-    private float _timeToPlay = 20f;
-    //[SerializeField]
-    private float _penalty = 2f;
-    //[SerializeField]
-    private float _reward = 1f;
-    #endregion
-
-    void Start()
-    {
-        // cache of data
-        poolObject = this.GetComponent<PoolObject>();
-        data = this.GetComponent<Data>();
-        labels = FindObjectsOfType<TextMeshProUGUI>();
-        if (labels[0].name == "Score Text")
+        private ReflexTapPoolObject poolObject;
+        private Data data;
+        private UIHandler uiHandler;
+        [SerializeField] private BoardSettings boardSettings;
+        [SerializeField] private GamePlaySettings gamePlaySettings;
+        [SerializeField] private Image background;
+        [SerializeField] private int lives = 3;
+        public int Lives
         {
-            scoreLabel = labels[0];
-            gameOverLabel = labels[1];
-            gameOverLabel.gameObject.SetActive(_gameOver);
-        } else
-        {
-            scoreLabel = labels[1];
-            gameOverLabel = labels[0];
-            gameOverLabel.gameObject.SetActive(_gameOver);
+            get => lives;
+            protected set
+            {
+                lives = value;
+            }
         }
-    }
 
-    private void FixedUpdate()
-    {
-        if (_gameOver)
+        public Image Background
         {
-            Debug.Log("GameOver.");
-            ResumeGame();
+            get => background;
+            set => background = value;
         }
-        TimerToGameOver();
-        if (score < 0)
+
+        public int score = 0;
+        public int clicks = 0;
+
+        private bool _gameOver = false;
+        public bool isGameOver
         {
-            Debug.Log("Score is less than zero.");
-            GameOver();
+            get => _gameOver;
         }
-    }
 
-    private void TimerToGameOver()
-    {
-        if (_timeToPlay > 0)
+        #region Time to play
+        private float _timeToPlay;
+        public float TimeToPlay
         {
-            _timeToPlay -= Time.deltaTime;
-        } else
-        {
-            Debug.Log("GameOver by timer.");
-            GameOver();
-            return;
+            get => _timeToPlay;
+            protected set { }
         }
-    }
+        #endregion
 
-    private void GameOver()
-    {
-        _gameOver = true;
-        gameOverLabel.gameObject.SetActive(_gameOver);
-        _timeToPlay = 0;
-        PauseGame();
-        StartCoroutine(WaitForStart());
-    }
+        [Header("Reaction Time")]
+        [SerializeField] public float delayBeforeCollapse;
+        [SerializeField] public float collapsingTime;
 
-    private void PauseGame()
-    {
-        Time.timeScale = 0;
-    }
+        private void Awake()
+        {
+            ReflexTapEventEmitter.ReflexTapEventEmitter.CircleTaped += ClicksUpdate;
+            ReflexTapEventEmitter.ReflexTapEventEmitter.ScoreUpdate += ScoreUpdate;
 
-    private void ResumeGame()
-    {
-        Time.timeScale = 1;
-        _gameOver = false;
-        score = 0;
-        scoreLabel.text = score.ToString();
-        _timeToPlay = 20f;
-        gameOverLabel.gameObject.SetActive(false);
-        Debug.Log("Game has been restarted");
-    }
-    private IEnumerator WaitForStart()
-    {
-        Debug.Log("Start the timer for restart game");
-        yield return new WaitForSecondsRealtime(5);
-        ResumeGame();
-    }
+            poolObject = this.GetComponent<ReflexTapPoolObject>();
+            data = this.GetComponent<Data>();
+            uiHandler = this.GetComponent<UIHandler>();
+            boardSettings = this.GetComponent<BoardSettings>();
+            gamePlaySettings = this.GetComponent<GamePlaySettings>();
+        }
 
-    public void ScoreIncrease()
-    {
-        clicks++;
-        _ = clicks > 10 ? score += circleCost * 2 : score += circleCost;
-        scoreLabel.text = score.ToString();
-        _timeToPlay += _reward;
-    }
+        private void OnDestroy()
+        {
+            ReflexTapEventEmitter.ReflexTapEventEmitter.CircleTaped -= ClicksUpdate;
+        }
 
-    public void ScoreDecrease()
-    {
-        //_ = clicks > 10 ? clicks = 10 : clicks = 0;
-        score -= circleCost*3;
-        scoreLabel.text = score.ToString();
-        _timeToPlay -= _penalty;
+        void Start()
+        {
+            delayBeforeCollapse = data.Delay;
+            collapsingTime = data.TimeToCollapse;
+            _timeToPlay = gamePlaySettings.MaxTimeToPlay;
+        }
+
+        private void FixedUpdate()
+        {
+            if (_gameOver || score < 0) GameOver();
+        
+            TimerToGameOver();
+        }
+
+        private void ResetState()
+        {
+            _gameOver = false;
+            score = 0;
+            uiHandler.ScoreLabelUpdate(score);
+            _timeToPlay = uiHandler.UpdateTimeToPlay(_timeToPlay, gamePlaySettings.MaxTimeToPlay);
+            uiHandler.GameOver(false);
+        }
+
+        private void TimerToGameOver()
+        {
+            if (_timeToPlay > 0)
+            {
+                _timeToPlay -= Time.deltaTime;
+                uiHandler.TimeBarUpdate(_timeToPlay);
+            } else
+            {
+                GameOver();
+                return;
+            }
+        }
+
+        private void GameOver()
+        {
+            _gameOver = true;
+            uiHandler.GameOver(true);
+            _timeToPlay = uiHandler.ResetTimeToPlay();
+            uiHandler.PauseGame();
+
+            StartCoroutine(WaitForStart());
+        }
+
+        private IEnumerator WaitForStart()
+        {
+            yield return new WaitForSecondsRealtime(5f);
+            uiHandler.ResumeGame();
+            ResetState();
+        }
+
+        public void ClicksUpdate()
+        {
+            clicks++;
+        }
+
+        public void ScoreUpdate(bool isIncrease = true)
+        {
+            score = uiHandler.ScoreMultiplierByClicks(isIncrease, clicks, score);
+            _timeToPlay = isIncrease ? uiHandler.UpdateTimeToPlay(_timeToPlay, gamePlaySettings.Reward) :
+                uiHandler.UpdateTimeToPlay(_timeToPlay, -gamePlaySettings.Penalty);
+
+        }
     }
 }
+

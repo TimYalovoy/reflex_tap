@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ReflexTap
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: b84c50c33d389f0479731c4ee489eb37, type: 3}
+    - {fileID: 2800000, guid: 3ca52d0b2813d374db1db605a970f0a8, type: 3}
+    - {fileID: 2800000, guid: 96198827c19c6b844b868573d3f094ff, type: 3}
+    - {fileID: 2800000, guid: eee4aa56280bde74a9c42b705ed2e96a, type: 3}
+    - {fileID: 2800000, guid: bd66117a67238a4418c4eef1977c22c0, type: 3}
+    - {fileID: 2800000, guid: 5f030787a64d6034684f3626a1a00bb9, type: 3}
+    - {fileID: 2800000, guid: 1db988d577b884c4ea40f951a8e6ed6c, type: 3}
+    - {fileID: 2800000, guid: 386db313a25dc3349b44de071adbcac1, type: 3}
+    - {fileID: 2800000, guid: c682a731babc51a478663ef54ddbd444, type: 3}
+    - {fileID: 2800000, guid: c13f3b1f009771748ad55b13d34cac0c, type: 3}
+    - {fileID: 2800000, guid: eb9949a92bb906744bec3711a57ea7cd, type: 3}
+    - {fileID: 2800000, guid: fb8175a4cd892e8428a608fede6aeffc, type: 3}
+    - {fileID: 2800000, guid: 1ecb4597656bdc24191d9478a8d76710, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: c682a731babc51a478663ef54ddbd444, type: 3}
+  - {fileID: 21300000, guid: 386db313a25dc3349b44de071adbcac1, type: 3}
+  - {fileID: 21300000, guid: b84c50c33d389f0479731c4ee489eb37, type: 3}
+  - {fileID: 21300000, guid: fb8175a4cd892e8428a608fede6aeffc, type: 3}
+  - {fileID: 21300000, guid: 1db988d577b884c4ea40f951a8e6ed6c, type: 3}
+  - {fileID: 21300000, guid: eee4aa56280bde74a9c42b705ed2e96a, type: 3}
+  - {fileID: 21300000, guid: 96198827c19c6b844b868573d3f094ff, type: 3}
+  - {fileID: 21300000, guid: 5f030787a64d6034684f3626a1a00bb9, type: 3}
+  - {fileID: 21300000, guid: 1ecb4597656bdc24191d9478a8d76710, type: 3}
+  - {fileID: 21300000, guid: eb9949a92bb906744bec3711a57ea7cd, type: 3}
+  - {fileID: 21300000, guid: bd66117a67238a4418c4eef1977c22c0, type: 3}
+  - {fileID: 21300000, guid: 3ca52d0b2813d374db1db605a970f0a8, type: 3}
+  - {fileID: 21300000, guid: c13f3b1f009771748ad55b13d34cac0c, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - radial
+  - playbttn
+  - pausebttn_var2_1 1
+  - Title
+  - pausebttn_var2_1
+  - fgFlashGaus
+  - partcVFX
+  - bgFlash
+  - Title 1
+  - sprite
+  - border
+  - particleVFX
+  - sprite 1
+  m_RenderDataMap: {}
+  m_Tag: ReflexTap
+  m_IsVariant: 0

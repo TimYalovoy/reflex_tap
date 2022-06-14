@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Data : MonoBehaviour
+namespace ReflexTap
 {
-    // Circle data
-    #region Time (seconds)
-    [SerializeField]
-    private float _delay;
-    public float Delay
+    public class Data : MonoBehaviour
     {
-        get => _delay;
-        set => _delay = value;
+        [Header("Circle data")]
+        #region Time (seconds) for interact withc Circles
+        [SerializeField] private float _delay;
+        public float Delay
+        {
+            get => _delay;
+            set => _delay = value;
+        }
+        [SerializeField] private float _timeToCollapse;
+        public float TimeToCollapse
+        {
+            get => _timeToCollapse;
+            set => _timeToCollapse = value;
+        }
+        #endregion
     }
-    [SerializeField]
-    private float _timeToCollapse;
-    public float TimeToCollapse
-    {
-        get => _timeToCollapse;
-        set => _timeToCollapse = value;
-    }
-    #endregion
 }
